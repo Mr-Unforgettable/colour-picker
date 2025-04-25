@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+body {
+  @apply text-gray-900 bg-white dark:text-white dark:bg-gray-900 dark:opacity-100;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
