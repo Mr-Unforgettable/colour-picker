@@ -1,19 +1,22 @@
-import React, { useCallback } from "react";
+import React, { useCallback } from 'react'
 
 const useDrag = (onDrag: (e: MouseEvent) => void) => {
-    const startDrag = useCallback((e: React.MouseEvent) => {
-        e.preventDefault();
-        onDrag(e.nativeEvent);
-        window.addEventListener("mousemove", onDrag);
-        window.addEventListener("mouseup", stopDrag);
-    }, [onDrag]);
-
     const stopDrag = useCallback(() => {
-        window.removeEventListener("mousemove", onDrag);
-        window.removeEventListener("mouseup", stopDrag);
-    }, [onDrag]);
+        globalThis.removeEventListener('mousemove', onDrag)
+        globalThis.removeEventListener('mouseup', stopDrag)
+    }, [onDrag])
 
-    return startDrag;
-};
+    const startDrag = useCallback(
+        (e: React.MouseEvent) => {
+            e.preventDefault()
+            onDrag(e.nativeEvent)
+            globalThis.addEventListener('mousemove', onDrag)
+            globalThis.addEventListener('mouseup', stopDrag)
+        },
+        [onDrag, stopDrag],
+    )
 
-export default useDrag;
+    return startDrag
+}
+
+export default useDrag
