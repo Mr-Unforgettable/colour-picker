@@ -25,7 +25,7 @@ const HueSlider: React.FC<HueSliderProps> = ({ hue, setHue }) => {
             className='w-6 h-64 relative border border-black dark:border-white rounded cursor-pointer'
             style={{
                 background:
-                    'linear-gradient(to top, red, magenta, blue, cyan, green, lime, yellow, red)',
+                    'linear-gradient(to bottom, red, magenta, blue, cyan, green, lime, yellow, red)',
             }}
         >
             <div
