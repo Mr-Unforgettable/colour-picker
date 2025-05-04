@@ -3,6 +3,7 @@ import FindColor from './components/FindColor.tsx'
 import useColorState from './hooks/useColorState.ts'
 import ColorSquarePicker from './components/ColorSquarePicker.tsx'
 import HueSlider from './components/HueSlider.tsx'
+import EyeDropper from './components/EyeDropper.tsx'
 import AlphaSlider from './components/AlphaSlider.tsx'
 import ColorPreview from './components/ColorPreview.tsx'
 import ColorDetails from './components/ColorDetails.tsx'
@@ -16,6 +17,24 @@ const App: React.FC = () => {
         inputHex,
         handleColorChange,
     } = useColorState()
+
+    const handleEyeDropper = async () => {
+        if (!('EyeDropper' in window)) {
+            alert('Your browser does not support the EyeDropper API')
+            return
+        }
+
+        try {
+            /* @ts-ignore */
+            const eyeDropper = new globalThis.EyeDropper()
+            const result = await eyeDropper.open()
+            const pickedHex = result.sRGBHex
+
+            handleColorChange(pickedHex)
+        } catch (error) {
+            console.error('EyeDropper failed:', error)
+        }
+    }
 
     return (
         <div className='min-h-screen flex items-center justify-center'>
@@ -68,6 +87,11 @@ const App: React.FC = () => {
                             alpha={alpha}
                         />
                     </div>
+                </div>
+
+                {/* Eydropper Button */}
+                <div className='flex justify-center mt-6'>
+                    <EyeDropper onSelect={handleEyeDropper} />
                 </div>
             </div>
         </div>
